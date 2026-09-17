@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>黄京竺 · 个人志</title>
+<meta name="description" content="黄京竺的个人主页：中山大学社会学硕士研究生，关注健康社会学、社会分层与量化方法。从市场营销、流水线与军营，到田野与数据。">
+
+<!-- ============================================================
+  黄京竺 · 个人志（创刊号）
+  单文件 HTML：无框架、无外部依赖、无追踪。
+
+  自己改内容时，搜索「TODO」即可找到所有需要替换的位置：
+    TODO-1  GitHub / 学术主页链接（默认注释掉了）
+    TODO-2  邮箱（如想换成学校邮箱，改页面底部脚本里的 mailUser/mailHost）
+    TODO-3  个人照片位（默认注释掉了，想加照片取消注释并替换 src）
+
+  部署到 GitHub Pages：
+    1. 新建仓库，命名为 <你的用户名>.github.io
+    2. 把本文件改名为 index.html 上传到仓库根目录
+    3. Settings → Pages → Source 选 main 分支，保存即上线
+============================================================ -->
+
+<style>
+/* ---------- 设计令牌 ---------- */
+:root{
+  --paper:#FCFBF7;        /* 纸白 */
+  --ink:#1B1A17;          /* 墨黑 */
+  --red:#AE3B2A;          /* 批注红：只用于编辑记号、关键词与链接 */
+  --red-wash:rgba(174,59,42,.07);
+  --graphite:#6F6A60;     /* 铅灰：辅助信息 */
+  --hairline:#E0DBD0;     /* 细线 */
+  --serif:"Songti SC","Noto Serif CJK SC","Source Han Serif SC","STSong","SimSun",Georgia,"Times New Roman",serif;
+  --kai:"Kaiti SC","STKaiti","KaiTi","DFKai-SB",var(--serif);
+  --sans:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"SF Mono",Menlo,Consolas,"Courier New",monospace;
+  --w:1060px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.95;
+  -webkit-font-smoothing:antialiased;
+}
+
+::selection{background:var(--red);color:#fff}
+
+a{color:var(--red);text-decoration:none;border-bottom:1px solid rgba(174,59,42,.35);transition:border-color .2s,background .2s}
+a:hover{border-bottom-color:var(--red);background:var(--red-wash)}
+a:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:2px}
+
+.skip{
+  position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;
+  padding:.5em 1em;z-index:99;border:0;
+}
+.skip:focus{left:12px;top:12px}
+
+.wrap{max-width:var(--w);margin:0 auto;padding:0 28px}
+
+/* ---------- 顶部刊头条 ---------- */
+.topbar{border-bottom:1px solid var(--ink)}
+.topbar .wrap{
+  display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  padding-top:14px;padding-bottom:12px;
+  font-family:var(--sans);font-size:12px;letter-spacing:.14em;color:var(--graphite);
+}
+.topbar .brand{color:var(--ink);font-weight:600}
+.topbar .brand .en{margin-left:.75em;letter-spacing:.22em}
+.topbar .issue span+span::before{content:"·";margin:0 .6em;color:var(--hairline)}
+
+/* ---------- 刊头 / 封面 ---------- */
+.masthead{border-bottom:3px solid var(--ink);position:relative}
+.masthead .wrap{
+  display:grid;
+  grid-template-columns:minmax(0,1.55fr) minmax(260px,1fr);
+  gap:56px;
+  padding-top:72px;padding-bottom:64px;
+}
+
+.cover h1{
+  font-size:clamp(64px,9.5vw,118px);
+  font-weight:900;
+  letter-spacing:.06em;
+  line-height:1.08;
+}
+.cover .romanized{
+  font-family:Georgia,"Times New Roman",serif;
+  font-style:italic;
+  font-size:15px;letter-spacing:.3em;
+  color:var(--graphite);
+  margin-top:10px;text-transform:uppercase;
+}
+.cover .subtitle{
+  margin-top:34px;
+  font-size:clamp(22px,3vw,30px);
+  font-weight:700;letter-spacing:.05em;
+  border-top:1px solid var(--ink);
+  padding-top:22px;
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+}
+.cover .subtitle .en{
+  font-family:Georgia,serif;font-style:italic;font-weight:400;
+  font-size:14px;letter-spacing:.12em;color:var(--graphite);
+}
+.cover .deck{
+  margin-top:16px;max-width:34em;color:#333029;
+}
+.cover .deck .sealrow{display:flex;align-items:center;gap:14px;margin-top:18px}
+.seal{
+  width:44px;height:44px;flex:none;
+  background:var(--red);color:#fff;
+  font-family:var(--kai);font-size:17px;line-height:1.15;
+  display:grid;place-items:center;text-align:center;
+  letter-spacing:.1em;
+  box-shadow:0 0 0 1px var(--red);
+  border-radius:2px;
+}
+.seal-cap{font-family:var(--sans);font-size:12px;letter-spacing:.18em;color:var(--graphite)}
+
+/* 书脊：竖排小字（桌面端） */
+.spine{
+  position:absolute;right:14px;top:84px;bottom:84px;
+  writing-mode:vertical-rl;
+  font-family:var(--kai);font-size:13px;letter-spacing:.42em;
+  color:var(--graphite);
+  border-left:1px solid var(--hairline);
+  padding-left:10px;
+}
+
+/* 目录 */
+.toc{align-self:start;border:1px solid var(--ink);padding:26px 26px 20px;background:#fff}
+.toc h2{
+  font-size:20px;font-weight:900;letter-spacing:.35em;
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.toc h2 .en{font-family:var(--sans);font-weight:400;font-size:11px;letter-spacing:.22em;color:var(--graphite)}
+.toc .toc-note{
+  font-family:var(--sans);font-size:11px;letter-spacing:.12em;color:var(--graphite);
+  border-bottom:1px solid var(--ink);padding:8px 0 12px;
+}
+.toc ol{list-style:none;margin-top:6px}
+.toc li a{
+  display:flex;align-items:baseline;gap:10px;
+  padding:10px 2px;border-bottom:0;color:var(--ink);
+  font-size:16px;letter-spacing:.05em;
+}
+.toc li+li a{border-top:1px dotted var(--hairline)}
+.toc li a:hover{background:var(--red-wash)}
+.toc .num{font-family:var(--kai);color:var(--red);flex:none}
+.toc .dots{flex:1;border-bottom:1px dotted #C9C2B4;transform:translateY(-5px)}
+.toc .pg{font-family:var(--mono);font-size:12px;color:var(--graphite)}
+
+/* ---------- 页眉（滚动后出现的栏目导航） ---------- */
+.runhead{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:rgba(252,251,247,.96);
+  border-bottom:1px solid var(--ink);
+  transform:translateY(-100%);
+  transition:transform .3s ease;
+}
+.runhead.show{transform:translateY(0)}
+.runhead .wrap{
+  display:flex;justify-content:space-between;align-items:center;gap:18px;
+  padding-top:10px;padding-bottom:10px;
+}
+.runhead .rh-title{font-size:15px;font-weight:900;letter-spacing:.12em;white-space:nowrap}
+.runhead nav{display:flex;gap:4px;overflow-x:auto}
+.runhead nav a{
+  font-family:var(--sans);font-size:12.5px;letter-spacing:.1em;
+  color:var(--graphite);border-bottom:0;padding:4px 10px;white-space:nowrap;
+}
+.runhead nav a.cur{color:var(--red);box-shadow:inset 0 -2px 0 var(--red)}
+
+/* ---------- 栏目通用 ---------- */
+section{padding:88px 0 8px}
+.sec-head{display:flex;align-items:baseline;gap:18px;border-bottom:1px solid var(--ink);padding-bottom:14px}
+.sec-num{
+  flex:none;width:40px;height:40px;
+  border:1.5px solid var(--red);color:var(--red);
+  font-family:var(--kai);font-size:20px;
+  display:grid;place-items:center;border-radius:2px;
+  transform:translateY(6px);
+}
+.sec-head h2{font-size:clamp(26px,3.4vw,34px);font-weight:900;letter-spacing:.12em}
+.sec-head .en{
+  margin-left:auto;font-family:var(--sans);font-size:11px;
+  letter-spacing:.3em;color:var(--graphite);text-transform:uppercase;
+}
+.sec-body{padding:34px 0 46px}
+
+/* ---------- 壹 · 关于（编者按 + 摘要） ---------- */
+.editors-note{
+  font-family:var(--kai);color:var(--red);
+  border-left:3px solid var(--red);
+  padding:4px 0 4px 18px;margin-bottom:30px;
+  max-width:42em;font-size:16.5px;
+}
+.abstract{max-width:46em}
+.abstract p{margin-bottom:18px;text-align:justify}
+.abstract .label{
+  font-weight:900;letter-spacing:.1em;
+  background:var(--ink);color:var(--paper);
+  font-size:14px;padding:2px 8px;margin-right:10px;
+  font-family:var(--sans);
+}
+.keywords a, .kw{color:var(--red);border-bottom:1px solid rgba(174,59,42,.35)}
+.kw{cursor:default}
+.kw:hover{background:var(--red-wash)}
+.abstract .funding{color:var(--graphite);font-size:15.5px}
+
+/* ---------- 贰 · 研究 ---------- */
+.research-list{display:grid;gap:0}
+.research-item{
+  display:grid;grid-template-columns:120px 1fr;gap:26px;
+  padding:28px 0;border-bottom:1px dotted var(--hairline);
+}
+.research-item:last-child{border-bottom:0}
+.research-item .ri-no{
+  font-family:Georgia,serif;font-style:italic;font-size:14px;
+  letter-spacing:.18em;color:var(--graphite);padding-top:8px;
+}
+.research-item h3{font-size:21px;font-weight:900;letter-spacing:.06em;margin-bottom:8px}
+.research-item h3 .sub{font-family:Georgia,serif;font-style:italic;font-weight:400;font-size:13.5px;color:var(--graphite);letter-spacing:.08em;margin-left:10px}
+.research-item p{max-width:42em;color:#333029}
+.method-line{
+  margin-top:34px;border:1px solid var(--hairline);background:#fff;
+  padding:16px 20px;font-family:var(--sans);font-size:13.5px;letter-spacing:.04em;
+  color:var(--graphite);display:flex;flex-wrap:wrap;gap:.4em 1.6em;
+}
+.method-line b{color:var(--ink);font-weight:600}
+
+/* ---------- 叁 · 项目 ---------- */
+.projects{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:0}
+.project{
+  border:1px solid var(--hairline);border-left:0;border-top:0;
+  padding:30px 28px 26px;background:#fff;position:relative;
+  transition:background .25s;
+}
+.project:nth-child(odd){border-left:1px solid var(--hairline)}
+.project:nth-child(-n+2){border-top:1px solid var(--hairline)}
+.project:hover{background:#FFFDF8}
+.project .pj-kicker{
+  font-family:var(--sans);font-size:11px;letter-spacing:.26em;color:var(--red);
+  margin-bottom:12px;
+}
+.project h3{font-size:20px;font-weight:900;letter-spacing:.05em;margin-bottom:10px}
+.project p{font-size:15.5px;color:#3A372F;margin-bottom:16px}
+.project .tags{display:flex;flex-wrap:wrap;gap:8px}
+.project .tags span{
+  font-family:var(--mono);font-size:11.5px;color:var(--graphite);
+  border:1px solid var(--hairline);padding:3px 9px;border-radius:2px;background:var(--paper);
+}
+
+/* ---------- 肆 · 年表 ---------- */
+.timeline{position:relative;margin-left:6px}
+.timeline::before{
+  content:"";position:absolute;left:0;top:8px;bottom:8px;
+  border-left:1px solid var(--hairline);
+}
+.t-item{
+  position:relative;
+  display:grid;grid-template-columns:210px 1fr;gap:30px;
+  padding:24px 0 24px 34px;
+}
+.t-item::before{
+  content:"";position:absolute;left:-4.5px;top:38px;
+  width:9px;height:9px;background:var(--red);border-radius:50%;
+  box-shadow:0 0 0 3px var(--paper);
+}
+.t-item+.t-item{border-top:1px dotted var(--hairline)}
+.t-date{
+  font-family:var(--mono);font-size:13px;color:var(--graphite);
+  letter-spacing:.04em;padding-top:8px;
+}
+.t-body h3{font-size:19px;font-weight:900;letter-spacing:.05em}
+.t-body .role{
+  font-family:var(--sans);font-size:12.5px;letter-spacing:.14em;
+  color:var(--red);margin:4px 0 8px;
+}
+.t-body p{font-size:15.5px;color:#3A372F;max-width:40em}
+
+/* ---------- 伍 · 档案（变量表） ---------- */
+.codebook-cap{
+  font-family:var(--sans);font-size:13px;letter-spacing:.1em;color:var(--graphite);
+  margin-bottom:14px;
+}
+.codebook-cap b{color:var(--ink);font-weight:600;letter-spacing:.16em}
+.codebook{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--ink)}
+.codebook th{
+  font-family:var(--sans);font-size:12px;letter-spacing:.2em;font-weight:600;
+  text-align:left;border-bottom:1.5px solid var(--ink);
+  padding:12px 18px;color:var(--ink);background:var(--paper);
+}
+.codebook td{
+  padding:13px 18px;border-bottom:1px dotted var(--hairline);
+  font-size:15.5px;vertical-align:top;
+}
+.codebook tr:last-child td{border-bottom:0}
+.codebook .var{font-family:var(--mono);font-size:13px;color:var(--red);white-space:nowrap}
+.codebook .note{color:var(--graphite);font-size:14px}
+.codebook-foot{
+  font-family:var(--kai);color:var(--graphite);font-size:14.5px;margin-top:12px;
+}
+
+/* ---------- 陆 · 联系 ---------- */
+.contact-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:start}
+.contact-list{list-style:none}
+.contact-list li{
+  display:flex;gap:18px;align-items:baseline;
+  padding:16px 2px;border-bottom:1px dotted var(--hairline);
+}
+.contact-list .k{
+  flex:none;width:88px;
+  font-family:var(--sans);font-size:12px;letter-spacing:.22em;color:var(--graphite);
+}
+.contact-list .v{font-size:16.5px;word-break:break-all}
+.contact-aside{
+  font-family:var(--kai);color:var(--red);font-size:16px;
+  border:1px dashed rgba(174,59,42,.5);padding:22px 24px;background:var(--red-wash);
+  line-height:2.1;
+}
+
+/* ---------- 版权页 ---------- */
+.colophon{border-top:3px solid var(--ink);margin-top:80px}
+.colophon .wrap{
+  display:flex;flex-wrap:wrap;justify-content:space-between;gap:14px 32px;
+  padding-top:26px;padding-bottom:40px;
+  font-family:var(--sans);font-size:12px;letter-spacing:.12em;color:var(--graphite);
+}
+.colophon .wrap span b{color:var(--ink);font-weight:600;margin-right:.6em}
+.backtop{border-bottom:0;font-family:var(--sans)}
+
+/* ---------- 入场动效 ---------- */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .65s ease,transform .65s ease}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  .runhead{transition:none}
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1240px){
+  .spine{display:none}
+}
+@media (max-width:920px){
+  .masthead .wrap{grid-template-columns:1fr;gap:40px;padding-top:52px;padding-bottom:48px}
+  .spine{display:none}
+  .projects{grid-template-columns:1fr}
+  .project{border-left:1px solid var(--hairline)}
+  .project:nth-child(-n+2){border-top:0}
+  .project:first-child{border-top:1px solid var(--hairline)}
+  .contact-grid{grid-template-columns:1fr;gap:28px}
+}
+@media (max-width:600px){
+  body{font-size:16px}
+  .wrap{padding:0 20px}
+  section{padding:64px 0 4px}
+  .topbar .wrap{flex-direction:column;gap:4px}
+  .research-item{grid-template-columns:1fr;gap:6px}
+  .t-item{grid-template-columns:1fr;gap:6px;padding-left:26px}
+  .t-date{padding-top:0}
+  .sec-head .en{display:none}
+  .codebook th:nth-child(3),.codebook td:nth-child(3){display:none}
+}
+
+/* ---------- 打印 ---------- */
+@media print{
+  .runhead,.skip,.backtop{display:none}
+  body{background:#fff}
+  a{color:var(--ink);border-bottom:0}
+}
+</style>
+</head>
+
+<body>
+<a class="skip" href="#about">跳到正文</a>
+
+<!-- 滚动后出现的页眉导航 -->
+<div class="runhead" id="runhead" aria-hidden="true">
+  <div class="wrap">
+    <span class="rh-title">黄京竺 · 个人志</span>
+    <nav aria-label="栏目导航">
+      <a href="#about">关于</a>
+      <a href="#research">研究</a>
+      <a href="#projects">项目</a>
+      <a href="#timeline">年表</a>
+      <a href="#profile">档案</a>
+      <a href="#contact">联系</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ============ 刊头 ============ -->
+<header class="masthead">
+  <div class="topbar">
+    <div class="wrap">
+      <span class="brand">黄京竺 · 个人志<span class="en">A ONE-PERSON JOURNAL</span></span>
+      <span class="issue">
+        <span>创刊号 · 总第 1 期</span><span>2026 年 6 月</span><span>广州</span><span>定价：免费</span>
+      </span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="cover">
+      <h1>黄京竺</h1>
+      <div class="romanized">Huang Jingzhu</div>
+
+      <div class="subtitle">
+        从车间到田野
+        <span class="en">From the Shop Floor to the Field</span>
+      </div>
+
+      <p class="deck">
+        市场营销、流水线、军营，然后是社会学——一条非线性的量化研究之路。
+        现于中山大学社会学系攻读硕士学位，关注健康社会学、社会分层与因果推断。
+      </p>
+
+      <!-- TODO-3：想放照片的话，取消下面注释并替换 src
+      <figure style="margin-top:26px;max-width:320px">
+        <img src="portrait.jpg" alt="黄京竺近照" style="width:100%;display:block;border:1px solid var(--ink)">
+        <figcaption style="font-family:var(--sans);font-size:11px;letter-spacing:.14em;color:var(--graphite);margin-top:8px">摄于广州 · 2026</figcaption>
+      </figure>
+      -->
+
+      <div class="deck sealrow">
+        <div class="seal" aria-hidden="true">京<br>竺</div>
+        <span class="seal-cap">本期作者、编辑与研究对象，均为同一人。</span>
+      </div>
+    </div>
+
+    <nav class="toc" aria-label="目录">
+      <h2>目录 <span class="en">CONTENTS</span></h2>
+      <div class="toc-note">本刊不定期更新 · 单页发行</div>
+      <ol>
+        <li><a href="#about"><span class="num">壹</span>关于 · 摘要<span class="dots"></span><span class="pg">p.01</span></a></li>
+        <li><a href="#research"><span class="num">贰</span>研究旨趣<span class="dots"></span><span class="pg">p.02</span></a></li>
+        <li><a href="#projects"><span class="num">叁</span>项目作品<span class="dots"></span><span class="pg">p.03</span></a></li>
+        <li><a href="#timeline"><span class="num">肆</span>履历年表<span class="dots"></span><span class="pg">p.04</span></a></li>
+        <li><a href="#profile"><span class="num">伍</span>个人档案<span class="dots"></span><span class="pg">p.05</span></a></li>
+        <li><a href="#contact"><span class="num">陆</span>联系 · 版权页<span class="dots"></span><span class="pg">p.06</span></a></li>
+      </ol>
+    </nav>
+  </div>
+
+  <div class="spine" aria-hidden="true">中山大学社会学系 · 硕士研究生 · 健康社会学与量化方法</div>
+</header>
+
+<main>
+
+<!-- ============ 壹 · 关于 ============ -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num" aria-hidden="true">壹</span>
+      <h2>关于 · 摘要</h2>
+      <span class="en">About / Abstract</span>
+    </div>
+
+    <div class="sec-body">
+      <p class="editors-note reveal">
+        编者按：以下摘要以第三人称写成，因为社会学训练的第一课，是把自己也当作研究对象。
+      </p>
+
+      <div class="abstract reveal">
+        <p>
+          <span class="label">摘要</span>本文报告一名社会学研究生的形成过程。研究对象本科就读于湖北大学市场营销专业（2015–2019），在校期间获湖北省大学生营销策划挑战赛一等奖；毕业后进入深圳富士康任业务助理，在订单、样品与产线之间，第一次近距离观察"中国制造"的组织运转；2020 年应征入伍，服役两年，获嘉奖一次、"四有"优秀士兵一次。2024 年，他考入中山大学攻读社会学硕士学位，把在市场、车间与军营里攒下的问题，换成数据与方法去回答。他关心的问题始终是同一个：制度与技术，如何落在普通人的健康与机会之上。
+        </p>
+        <p class="keywords">
+          <span class="label">关键词</span>
+          <span class="kw">健康社会学</span>；<span class="kw">社会分层与流动</span>；<span class="kw">因果推断</span>；<span class="kw">多层线性模型</span>；<span class="kw">问卷调查</span>
+        </p>
+        <p class="funding">
+          <span class="label">基金项目</span>自筹。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 贰 · 研究 ============ -->
+<section id="research">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num" aria-hidden="true">贰</span>
+      <h2>研究旨趣</h2>
+      <span class="en">Research</span>
+    </div>
+
+    <div class="sec-body">
+      <div class="research-list">
+        <article class="research-item reveal">
+          <div class="ri-no">No. 1</div>
+          <div>
+            <h3>智慧城市与居民健康<span class="sub">Smart Cities &amp; Health</span></h3>
+            <p>
+              城市的数字化与智能化，究竟通过什么机制影响居民的自评健康？我的工作假设是：关键不在医疗资源的"供给总量"，而在<em>效率</em>与<em>可及性</em>两条机制。基于全国调查数据与城市层面指标的多层模型分析，并关注户籍、收入与数字能力在其中的跨层调节作用。
+            </p>
+          </div>
+        </article>
+
+        <article class="research-item reveal">
+          <div class="ri-no">No. 2</div>
+          <div>
+            <h3>户籍、分层与社会流动<span class="sub">Hukou &amp; Stratification</span></h3>
+            <p>
+              制度性身份如何塑造代际之间的机会结构？谁在向上流动，谁被留在原地，"留在原地"又意味着什么——这是分层研究的老问题，也是每一代人的新问题。
+            </p>
+          </div>
+        </article>
+
+        <article class="research-item reveal">
+          <div class="ri-no">No. 3</div>
+          <div>
+            <h3>量化方法与计算工具<span class="sub">Methods</span></h3>
+            <p>
+              对方法本身保持持续的好奇：从经典的调查研究与多层模型，到机器学习辅助的社会科学工作流。比起"用什么模型"，更在意"这个模型回答的因果问题是否成立"。
+            </p>
+          </div>
+        </article>
+      </div>
+
+      <div class="method-line reveal">
+        <span><b>方法</b> 因果推断 · HLM 多层线性模型 · 问卷设计 · 机器学习</span>
+        <span><b>数据</b> CGSS · CFPS · CLDS</span>
+        <span><b>工具</b> Stata · Python</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 叁 · 项目 ============ -->
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num" aria-hidden="true">叁</span>
+      <h2>项目作品</h2>
+      <span class="en">Projects</span>
+    </div>
+
+    <div class="sec-body">
+      <div class="projects">
+        <article class="project reveal">
+          <div class="pj-kicker">专题 · 可视化</div>
+          <h3>中国学人思想地图</h3>
+          <p>把中国历史社会学与国家—社会理论的学者谱系，做成可交互的地图与时间线：人物、师承、论争与文本，在地理空间中铺开。</p>
+          <div class="tags"><span>D3.js</span><span>Leaflet</span><span>数据可视化</span></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="pj-kicker">专题 · 自动化</div>
+          <h3>证件 OCR × 表单自动填报</h3>
+          <p>面向高校行政场景的本地流水线：护照 MRZ 识别 → Word 模板自动渲染 → 信息系统网页表单自动填报，并完成可交接的部署文档。</p>
+          <div class="tags"><span>Python</span><span>OCR</span><span>Playwright</span><span>docxtpl</span></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="pj-kicker">专题 · AI 工作流</div>
+          <h3>多智能体协作架构</h3>
+          <p>设计"调度—规划—执行"的多层 agent 架构：共享文件系统作为黑板（blackboard），按任务复杂度与 token 成本做路由，让不同能力的模型各司其职。</p>
+          <div class="tags"><span>LLM</span><span>Multi-Agent</span><span>MCP</span></div>
+        </article>
+
+        <article class="project reveal">
+          <div class="pj-kicker">专题 · 全栈小品</div>
+          <h3>校园物资申领系统</h3>
+          <p>从需求到上线的全栈练习：库存三态模型、异步单据生成、审批流对接，把一件琐碎的行政事务变成一个干净的小系统。</p>
+          <div class="tags"><span>FastAPI</span><span>React</span><span>SQLite</span></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 肆 · 年表 ============ -->
+<section id="timeline">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num" aria-hidden="true">肆</span>
+      <h2>履历年表</h2>
+      <span class="en">Timeline</span>
+    </div>
+
+    <div class="sec-body">
+      <div class="timeline">
+        <div class="t-item reveal">
+          <div class="t-date">2024.09 — 至今</div>
+          <div class="t-body">
+            <h3>中山大学 · 社会学系</h3>
+            <div class="role">硕士研究生</div>
+            <p>方向：健康社会学、问卷调查、高级统计与机器学习。在数据与理论之间往返。</p>
+          </div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-date">2020.09 — 2022.09</div>
+          <div class="t-body">
+            <h3>中国人民解放军 95291 部队</h3>
+            <div class="role">战士</div>
+            <p>服役两年。获嘉奖一次、"四有"优秀士兵一次。学会了纪律、协作，以及在凌晨保持清醒。</p>
+          </div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-date">2019.07 — 2020.01</div>
+          <div class="t-body">
+            <h3>富士康 · 鸿富锦精密仪器（深圳）</h3>
+            <div class="role">业务助理</div>
+            <p>协助市场部课长进行客户管理，协调各部门交付样品与量产订单——后来才意识到，那是一次未带笔记本的组织社会学田野。</p>
+          </div>
+        </div>
+
+        <div class="t-item reveal">
+          <div class="t-date">2015.09 — 2019.06</div>
+          <div class="t-body">
+            <h3>湖北大学 · 市场营销</h3>
+            <div class="role">本科</div>
+            <p>2017 年获"飞 Young 甜橙杯"湖北省大学生营销策划挑战赛一等奖；任爱知行动社副会长，社团获评年度校级五星社团。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 伍 · 档案 ============ -->
+<section id="profile">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num" aria-hidden="true">伍</span>
+      <h2>个人档案</h2>
+      <span class="en">Profile</span>
+    </div>
+
+    <div class="sec-body reveal">
+      <p class="codebook-cap"><b>表 1</b>　个体特征描述（N = 1）</p>
+      <table class="codebook">
+        <thead>
+          <tr><th scope="col">变量</th><th scope="col">取值</th><th scope="col">备注</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="var">location</td><td>广州</td><td class="note">中山大学</td></tr>
+          <tr><td class="var">status</td><td>社会学硕士在读 · 2024 级</td><td class="note">健康社会学方向</td></tr>
+          <tr><td class="var">party</td><td>中共党员</td><td class="note">—</td></tr>
+          <tr><td class="var">lang_zh</td><td>普通话二级甲等</td><td class="note">—</td></tr>
+          <tr><td class="var">lang_en</td><td>大学英语六级（CET-6）</td><td class="note">持续学习中</td></tr>
+          <tr><td class="var">cert</td><td>计算机二级（Office 方向）</td><td class="note">—</td></tr>
+          <tr><td class="var">service</td><td>退役军人 · 服役两年</td><td class="note">嘉奖 ×1 · "四有"优秀士兵 ×1</td></tr>
+          <tr><td class="var">interests</td><td>机械结构 · 视频创作 · AI 内容生成</td><td class="note">课余</td></tr>
+        </tbody>
+      </table>
+      <p class="codebook-foot">注：本表为全样本统计，不存在抽样误差。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 陆 · 联系 ============ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-num" aria-hidden="true">陆</span>
+      <h2>联系 · 来信</h2>
+      <span class="en">Contact</span>
+    </div>
+
+    <div class="sec-body">
+      <div class="contact-grid">
+        <ul class="contact-list reveal">
+          <li>
+            <span class="k">邮箱 MAIL</span>
+            <span class="v"><a id="mail" href="#">2278253811 [at] qq.com</a></span>
+          </li>
+          <li>
+            <span class="k">单位 AFFIL.</span>
+            <span class="v">中山大学 社会学系（广州）</span>
+          </li>
+          <!-- TODO-1：有 GitHub / 学术主页后，取消注释并替换链接
+          <li>
+            <span class="k">代码 CODE</span>
+            <span class="v"><a href="https://github.com/yourname" rel="me">github.com/yourname</a></span>
+          </li>
+          -->
+        </ul>
+
+        <aside class="contact-aside reveal">
+          学术合作、数据讨论与项目交流，来信皆复。<br>
+          ——另按本刊惯例，电话号码恕不刊出。
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ 版权页 ============ -->
+<footer class="colophon">
+  <div class="wrap">
+    <span><b>主编 / 撰稿 / 排版</b>黄京竺</span>
+    <span><b>印行</b>单文件 HTML · 无框架 · 无追踪</span>
+    <span><b>字体</b>宋体 / 楷体 / 系统衬线</span>
+    <span>© 2026 黄京竺 · 创刊号</span>
+    <a class="backtop" href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">回到刊头 ↑</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* TODO-2：换邮箱时只改这两行 */
+  var mailUser = "2278253811";
+  var mailHost = "qq.com";
+  var m = document.getElementById("mail");
+  if(m){ m.href = "mailto:" + mailUser + "@" + mailHost; }
+
+  /* 页眉：滚过刊头后出现 */
+  var runhead = document.getElementById("runhead");
+  var masthead = document.querySelector(".masthead");
+  if("IntersectionObserver" in window){
+    new IntersectionObserver(function(entries){
+      runhead.classList.toggle("show", !entries[0].isIntersecting);
+      runhead.setAttribute("aria-hidden", entries[0].isIntersecting ? "true" : "false");
+    },{threshold:0}).observe(masthead);
+
+    /* 页眉高亮当前栏目 */
+    var links = runhead.querySelectorAll("nav a");
+    var map = {};
+    links.forEach(function(a){ map[a.getAttribute("href").slice(1)] = a; });
+
+    var secObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(a){ a.classList.remove("cur"); });
+          var a = map[e.target.id];
+          if(a){ a.classList.add("cur"); }
+        }
+      });
+    },{rootMargin:"-30% 0px -60% 0px"});
+    document.querySelectorAll("main section").forEach(function(s){ secObs.observe(s); });
+
+    /* 入场动效（尊重系统减弱动效设置） */
+    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(!reduced){
+      var rObs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting){ e.target.classList.add("in"); rObs.unobserve(e.target); }
+        });
+      },{threshold:0.12});
+      document.querySelectorAll(".reveal").forEach(function(el){ rObs.observe(el); });
+    } else {
+      document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); });
+    }
+  } else {
+    document.querySelectorAll(".reveal").forEach(function(el){ el.classList.add("in"); });
+    runhead.classList.add("show");
+  }
+})();
+</script>
+</body>
+</html>
