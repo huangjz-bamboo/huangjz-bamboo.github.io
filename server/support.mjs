@@ -9,17 +9,10 @@ export function createSupportHandler(getStore) {
     const allowedOrigins = new Set([url.origin, ...(process.env.ALLOWED_ORIGINS || 'https://huang-jingzhu-0fqr2apn.edgeone.cool').split(',').map(x => x.trim()).filter(Boolean)]);
     if (!allowedOrigins.has(request.headers.get('origin'))) return reply('Invalid origin', 403);
     if (!request.headers.get('content-type')?.startsWith('application/x-www-form-urlencoded')) return reply('Unsupported content type', 415);
-    const reader = request.body?.getReader();
-    if (!reader) return reply('Empty request', 400);
-    const chunks = []; let length = 0;
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      length += value.length;
-      if (length > 8192) { await reader.cancel(); return reply('Request too large', 413); }
-      chunks.push(Buffer.from(value));
-    }
-    const form = new URLSearchParams(Buffer.concat(chunks).toString('utf8'));
+    if (Number(request.headers.get('content-length')) > 8192) return reply('Request too large', 413);
+    const text = await request.text();
+    if (Buffer.byteLength(text, 'utf8') > 8192) return reply('Request too large', 413);
+    const form = new URLSearchParams(text);
     if (form.get('bot-field')) return reply('Invalid submission', 400);
     const name = (form.get('name') || '').trim();
     const amount = (form.get('amount') || '').trim();
