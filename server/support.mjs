@@ -6,7 +6,8 @@ export function createSupportHandler(getStore) {
     const reply = (error, status) => Response.json({ error }, { status, headers });
     if (request.method !== 'POST') return reply('Method not allowed', 405);
     const url = new URL(request.url);
-    if (request.headers.get('origin') !== url.origin) return reply('Invalid origin', 403);
+    const allowedOrigins = new Set([url.origin, ...(process.env.ALLOWED_ORIGINS || 'https://huang-jingzhu-0fqr2apn.edgeone.cool').split(',').map(x => x.trim()).filter(Boolean)]);
+    if (!allowedOrigins.has(request.headers.get('origin'))) return reply('Invalid origin', 403);
     if (!request.headers.get('content-type')?.startsWith('application/x-www-form-urlencoded')) return reply('Unsupported content type', 415);
     const reader = request.body?.getReader();
     if (!reader) return reply('Empty request', 400);
