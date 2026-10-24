@@ -2,3 +2,17 @@
 !.gitignore
 !index.html
 !黄京竺-个人志.html
+node_modules/
+.env*
+!public/
+!public/**
+!cloud-functions/
+!cloud-functions/**
+!server/
+!server/**
+!tests/
+!tests/**
+!package.json
+!package-lock.json
+!edgeone.json
+!README-edgeone.md

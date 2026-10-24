@@ -1,0 +1,11 @@
+import {reading,identify} from './engine.js';
+// Unbiased integer sampling; callers may supply deterministic values in tests.
+export function randomInt(max){if(!Number.isInteger(max)||max<1)throw Error('Invalid range');const limit=Math.floor(4294967296/max)*max;let n;do{n=crypto.getRandomValues(new Uint32Array(1))[0];}while(n>=limit);return n%max;}
+// Equal-residue digital model of three changes. Not uniform selection of all pile sizes.
+export function yarrowLine(pick=randomInt){let count=49;const trace=[];for(let turn=0;turn<3;turn++){const residue=pick(4);const candidates=[];for(let n=1;n<=count-2;n++)if(n%4===residue)candidates.push(n);const left=candidates[pick(candidates.length)],right=count-left-1;const l=left%4||4,r=right%4||4,removed=1+l+r;trace.push({turn:turn+1,before:count,left,right,hang:1,leftRemainder:l,rightRemainder:r,removed,after:count-removed});count-=removed;}return {value:count/4,trace};}
+// Named editorial implementation of the commonly summarized Zhu Xi rules.
+// Three moving lines: present both judgments; do not silently choose one disputed priority.
+export function selectTexts(lines){const r=reading(lines),m=r.moving,still=[1,2,3,4,5,6].filter(n=>!m.includes(n));const line=(id,pos,primary=true)=>({id,kind:'line',pos,primary});const judgment=(id,primary=true)=>({id,kind:'judgment',primary});let items,reason;
+switch(m.length){case 0:items=[judgment(r.primary)];reason='六爻不变，读本卦卦辞。';break;case 1:items=[line(r.primary,m[0])];reason='一爻变，读本卦该动爻爻辞。';break;case 2:items=[line(r.primary,m[1]),line(r.primary,m[0],false)];reason='二爻变，两条动爻爻辞并读，以位置较上的一爻为主。';break;case 3:items=[judgment(r.primary),judgment(r.changed)];reason='三爻变，本卦与之卦卦辞并读。本版不简化前十／后十卦的主次问题，保留两卦供对读。';break;case 4:items=[line(r.changed,still[0]),line(r.changed,still[1],false)];reason='四爻变，读之卦对应两个不变位置的爻辞，以位置较下的一爻为主。';break;case 5:items=[line(r.changed,still[0])];reason='五爻变，读之卦对应唯一不变位置的爻辞。';break;case 6:items=r.primary<=2?[{id:r.primary,kind:'special',primary:true}]:[judgment(r.changed)];reason=r.primary<=2?'六爻全变，乾取用九，坤取用六。':'六爻全变，读之卦卦辞。';}
+return {items,reason,version:'朱熹变占通行整理 · 三爻并读版 1.0'};}
+export function related(bits){return {mutual:identify(bits.slice(1,4)+bits.slice(2,5)),opposite:identify([...bits].map(x=>x==='1'?'0':'1').join('')),reversed:identify([...bits].reverse().join(''))};}

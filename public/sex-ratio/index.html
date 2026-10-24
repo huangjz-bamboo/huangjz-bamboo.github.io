@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="查询1982—2020年人口普查性别比：省市县地图、年份变化与区域对比。"><link rel="icon" href="/favicon.svg">
+<title>1982—2020 年全国性别比</title>
+<link rel="stylesheet" href="map.css">
+</head>
+<body>
+<aside>
+  <div class="brand"><a class="back-home" href="/#projects">← 黄京竺 · 个人志</a><b>性别比</b><span>1982—2020<br>三普至七普</span></div>
+  <nav>
+    <button class="nav-btn active" data-page="map">地图<small>省 · 市 · 县</small></button>
+    <button class="nav-btn" data-page="cmp">对比<small>最多 10 项</small></button>
+    <button class="nav-btn" data-page="reg">区域与地貌<small>规划区 · DEM</small></button>
+    <button class="nav-btn" data-page="custom">自定义区域<small>保存在本机</small></button>
+    <button class="nav-btn" data-page="about">数据说明<small>口径与来源</small></button>
+  </nav>
+  <div class="side-ind">
+    <div class="k">指标</div>
+    <button data-ind="srb" class="active">出生性别比（0岁）</button>
+    <button data-ind="total_sr">总人口性别比</button>
+  </div>
+</aside>
+<main><div class="map-welcome"><span>数据探索 / 1982—2020</span><strong>性别比动态地图</strong><p>点击地图逐级查询，或在“对比”中输入地区名称。数据口径与适用范围见“数据说明”。</p></div>
+<section class="view on" id="view-map">
+<div class="toolbar">
+  <button data-view="prov" class="active">省级 · 1982—2020</button>
+  <button data-view="city">地级市 · 2000—2020</button>
+  <button id="back">返回上一级</button>
+  <span class="sep"></span>
+  <label class="layer"><input type="checkbox" id="tglRelief" checked> 地形晕渲</label>
+  <label class="layer"><input type="checkbox" id="tglWater" checked> 河流湖泊</label>
+  <label class="layer"><input type="checkbox" id="tglSmall"> 隐藏小样本县</label>
+  <span class="hint" id="hint"></span>
+</div>
+<div class="crumb" id="crumb"></div>
+<div class="map-grid">
+  <div class="card map-card"><div id="map"></div></div>
+  <div class="side">
+    <div class="card"><div id="bar"></div></div>
+    <div class="card"><div id="line"></div></div>
+  </div>
+</div>
+</section>
+<section class="view" id="view-cmp">
+<div class="page-head"><h1>对比分析</h1><p>省份、地级市、县、规划区域、地貌类型和自定义区域，最多 10 项。指标用左侧按钮切换。</p></div>
+<section class="card pad" id="cmp" style="margin:16px">
+  <h2>添加对比项</h2>
+  <div class="cmp-body">
+    <div class="cmp-ctrl">
+      <label class="t">省份 → 地级市 → 县（直辖市的区在第二级；无下级区县的市停在市级）</label>
+      <div class="row">
+        <select id="selProv"></select>
+        <select id="selCity"></select>
+        <select id="selCounty"></select>
+        <button class="btn" id="addSel">添加</button>
+      </div>
+      <label class="t">或手动输入名称（如“天门”“海淀区”“广东”）</label>
+      <div class="row">
+        <input type="text" id="cmpInput" list="cmpList" placeholder="输入后回车或点添加">
+        <datalist id="cmpList"></datalist>
+        <button class="btn" id="addInput">添加</button>
+      </div>
+      <label class="t">区域 / 地貌类型（官方规划区域、DEM 地貌分类、自定义区域）</label>
+      <div class="row">
+        <select id="selRegion"></select>
+        <button class="btn" id="addRegion">添加</button>
+      </div>
+      <div id="cmpMsg"></div>
+      <label class="t">已选对比项</label>
+      <div id="chips"></div>
+      <label class="t">对比年份</label>
+      <div class="years" id="cmpYears"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn ghost" id="cmpClear">清空</button>
+        <button class="btn ghost" id="cmpCur">加入地图当前区域</button>
+      </div>
+    </div>
+    <div>
+      <div id="cmpLine"></div>
+      <div style="overflow-x:auto"><table id="cmpTable" class="tbl"></table></div>
+    </div>
+  </div>
+</section>
+</section>
+<section class="view" id="view-reg">
+<div class="page-head"><h1>区域与地貌</h1><p>规划区域按官方文件划定。点“范围”查看原文和成员。地貌按约 1 公里高程、各地级市面积占比最大的类型归类。</p></div>
+<section class="card pad" id="reg" style="margin:16px">
+  <h2>规划区域</h2>
+  <div class="reg-body">
+    <div style="overflow-x:auto"><table id="regTable" class="tbl"></table></div>
+    <div><div id="regMap"></div><div id="regInfo"></div></div>
+  </div>
+  <h3>按地貌类型汇总（DEM）
+    <span class="seg"><button data-lf="dom" class="active">主导地貌</button><button data-lf="alt">平均海拔分级</button></span>
+    <small>各地级单位按面积占比最大的地貌类型（或平均海拔）归类后合计</small></h3>
+  <div class="reg-body">
+    <div id="lfChart"></div>
+    <div style="overflow-x:auto"><table id="lfTable" class="tbl"></table></div>
+  </div>
+</section>
+</section>
+<section class="view" id="view-custom">
+<div class="page-head"><h1>自定义区域</h1><p>把省、地级市或县组成一个区域并命名。保存在这台电脑的浏览器里，可加入对比，也可在“区域与地貌”里查看范围。</p></div>
+<section class="card pad" id="custom" style="margin:16px">
+  <h2>新建或编辑</h2>
+  <div class="cmp-body">
+    <div class="cmp-ctrl">
+      <label class="t">区域名称</label>
+      <div class="row"><input type="text" id="cuName" placeholder="如：潮汕地区、川渝、东北三省"></div>
+      <label class="t">添加成员（第二框留在“全省/全市”、第三框留空，即省级全域）</label>
+      <div class="row">
+        <select id="cuProv"></select>
+        <select id="cuCity"></select>
+        <select id="cuCounty"></select>
+        <button class="btn" id="cuAdd">添加</button>
+      </div>
+      <label class="t">或手动输入名称</label>
+      <div class="row">
+        <input type="text" id="cuInput" list="cuList" placeholder="如：汕头、潮州、揭阳">
+        <datalist id="cuList"></datalist>
+        <button class="btn" id="cuAddInput">添加</button>
+      </div>
+      <div id="cuMsg"></div>
+      <label class="t">成员（<span id="cuCount">0</span>）</label>
+      <div id="cuChips" class="chip-wrap"></div>
+      <div class="row" style="margin-top:12px">
+        <button class="btn" id="cuSave">保存区域</button>
+        <button class="btn ghost" id="cuSaveCmp">保存并加入对比</button>
+        <button class="btn ghost" id="cuReset">清空</button>
+      </div>
+    </div>
+    <div>
+      <label class="t" style="margin-top:0">预览</label>
+      <table id="cuPreview" class="tbl"></table>
+      <label class="t">已保存的自定义区域</label>
+      <div id="cuSaved"></div>
+    </div>
+  </div>
+</section>
+</section>
+<section class="view" id="view-about">
+<div class="page-head"><h1>数据说明</h1><p>性别比 = 男性人数 / 女性人数 × 100。出生性别比的正常范围大约是 103–107。</p></div>
+<div class="card pad note" style="margin:16px">
+  <div class="note"><b>省级。</b>1982：1982年三普 附录一表7「1981年人口自然变动情况」出生人口（男/女）；总人口：第一卷表4<br>1990：1990年四普 表1-16「省自治区直辖市出生人口数」1989年下半年+1990年上半年；总人口：表1-1<br>2000：2000年五普 分县数据 TABLE2「分年龄、性别的人口」0岁男/女<br>2010：2010年六普 分县数据 TABLE2「分年龄、性别的人口」0岁男/女<br>2020：2020年七普 分县数据【完整版本】0岁男性/女性人口<br>
+  1982、1990 年没有分省 0 岁人口，出生性别比用普查前 12 个月的出生人口计算。这两年重庆并入四川、1982 年海南并入广东，地图沿用所属省份的数值。全国值是 31 个省合计，不含现役军人。台湾、香港、澳门没有数据。</div>
+  <div class="note"><b>地级市。</b>2000、2010、2020 年分县数据里的地级市汇总行（直辖市为区县）。1982、1990 年没有分市资料。按 2021 年行政区划换算：襄樊→襄阳、淮阴→淮安、思茅→普洱等改名，崇文/宣武、塘沽/汉沽/大港、莱芜、琼山等撤并，巢湖、南宁、柳州地区和宁夏中卫按所辖县归入现行地级市。2020 年重庆 31 个区县“0岁男性”缺了一格，已用男性总数减其余年龄组还原。0 岁人口不足 300 人的单位标为样本过小，地图不上色。</div>
+  <div class="note"><b>县。</b>同样来自分县数据的区、县、县级市行，只有 2000、2010、2020 年能算出生性别比。1982 年只有县级男女总人口，而且录入文本错漏较多，没有采用；1990 年这批资料里没有可用的县级分年龄表。边界用 DataV 2021 年县级区划。名称能对上的直接采用；改名和撤并用已有的对照（如蓟县→蓟州、崇文→东城，塘沽/汉沽/大港合计进滨海新区）。对不上的不进地图，名单在 <code>县级汇总核对.txt</code>（原研究附件，本站未提供下载）。0 岁人口不足 1000 的县，提示里会标明样本较小，可用“隐藏小样本县”在地图上隐去。直辖市的区县就在省级下钻的那一层，不再往下拆。</div>
+  <div class="note"><b>地图边界。</b>DataV.GeoAtlas areas_v3。全国、省、地级市、县逐级下钻：在省级图点省，进入该省的市；再点有下级区县的市，进入县。东莞、中山这类不设区的市没有下一级。</div>
+  <div class="note"><b>区域。</b>京津冀、长三角、粤港澳大湾区、珠三角、大别山革命老区的范围摘自规划原文；江汉平原用湖北省统计局的 38 个县市区；华北平原没有官方地级市名单，按中科院地理所的范围加上 DEM 平原占比判定。原文在 <code>官方文件/</code>（原研究资料目录；可通过区域详情中的原文链接查阅）。含县的区域只能算 2000–2020 年。香港、澳门不在普查范围内。</div>
+  <div class="note"><b>地貌。</b>高程来自 AWS Terrain Tiles（约 1 公里）。起伏度是约 3 公里窗口内的最大高差：平原 &lt;30 m、台地 30–70 m、丘陵 70–200 m、小起伏山地 200–500 m、中起伏山地 500–1000 m、大起伏山地 ≥1000 m（李炳元等，2008）。各地级市按面积占比最大的类型归类后合计。</div>
+  <div class="note"><b>地形水文。</b>晕渲是 Natural Earth 1:10m Shaded Relief，叠在设色上面，山地颜色更深。河流、湖泊是 Natural Earth 1:10m，已裁到国界内。</div>
+</div>
+</section>
+</main><noscript>交互查询需要启用 JavaScript。<a href="/">返回个人志</a></noscript>
+<script defer src="echarts.js"></script>
+<script defer src="map.js"></script>
+</body>
+</html>

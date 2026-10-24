@@ -1,0 +1,23 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createSupportHandler } from '../server/support.mjs';
+const form = { name: '迁移测试', consent: 'private-registration', message: 'test' };
+const request = (body = form, origin = 'https://example.com', accept = 'application/json') => new Request('https://example.com/api/support', { method: 'POST', headers: { origin, accept, 'content-type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(body) });
+test('private writes, validation, retry deduplication and failures', async () => {
+  const writes = [];
+  const handler = createSupportHandler(() => ({ setJSON: async (...args) => writes.push(args) }));
+  assert.equal((await handler({request: new Request('https://example.com/api/support')})).status,405);
+  assert.equal((await handler({request:request(form,'https://evil.example')})).status,403);
+  assert.equal((await handler({request:request({...form,consent:''})})).status,400);
+  assert.equal((await handler({request:request({...form,amount:'-1'})})).status,400);
+  assert.equal((await handler({request:request({...form,'bot-field':'bot'})})).status,400);
+  assert.equal((await handler({request:request({...form,message:'a'.repeat(9000)})})).status,413);
+  assert.equal(writes.length,0);
+  assert.equal((await handler({request:request()})).status,200);
+  assert.equal((await handler({request:request()})).status,200);
+  assert.equal(writes[0][0], writes[1][0]);
+  assert.equal(writes[0][1].paymentVerified,false);
+  assert.equal((await handler({request:request(form, 'https://example.com','text/html')})).headers.get('location'),'/thank-you.html');
+  const broken = createSupportHandler(() => ({setJSON:async()=>{throw Error('fail');}}));
+  assert.equal((await broken({request:request()})).status,503);
+});
